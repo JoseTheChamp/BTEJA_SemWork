@@ -1,0 +1,15 @@
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\bin\Debug\net6.0\BTEJA_SemWork.exe
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\bin\Debug\net6.0\BTEJA_SemWork.deps.json
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\bin\Debug\net6.0\BTEJA_SemWork.runtimeconfig.json
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\bin\Debug\net6.0\BTEJA_SemWork.dll
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\bin\Debug\net6.0\BTEJA_SemWork.pdb
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\obj\Debug\net6.0\BTEJA_SemWork.csproj.AssemblyReference.cache
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\obj\Debug\net6.0\BTEJA_SemWork.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\obj\Debug\net6.0\BTEJA_SemWork.AssemblyInfoInputs.cache
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\obj\Debug\net6.0\BTEJA_SemWork.AssemblyInfo.cs
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\obj\Debug\net6.0\BTEJA_SemWork.csproj.CoreCompileInputs.cache
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\obj\Debug\net6.0\BTEJA_SemWork.dll
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\obj\Debug\net6.0\refint\BTEJA_SemWork.dll
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\obj\Debug\net6.0\BTEJA_SemWork.pdb
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\obj\Debug\net6.0\BTEJA_SemWork.genruntimeconfig.cache
+C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\obj\Debug\net6.0\ref\BTEJA_SemWork.dll

@@ -110,10 +110,10 @@ namespace BTEJA_SemWork
                             default:
                             switch (v)
                             {
-                                case '<': Pop(); tokens.Add(new Token(Token.TokenType.Smaller)); break;
-                                case '>': Pop(); tokens.Add(new Token(Token.TokenType.Greater)); break;
-                                case '=': Pop(); tokens.Add(new Token(Token.TokenType.Equal)); break;
-                                case '!': Pop(); tokens.Add(new Token(Token.TokenType.Exclamation)); break;
+                                case '<': tokens.Add(new Token(Token.TokenType.Smaller)); break;
+                                case '>': tokens.Add(new Token(Token.TokenType.Greater)); break;
+                                case '=': tokens.Add(new Token(Token.TokenType.Equal)); break;
+                                case '!': tokens.Add(new Token(Token.TokenType.Exclamation)); break;
                                 default: throw new Exception("Inproper Symbol [ & , | ....]"); break;
                             }
                             break;

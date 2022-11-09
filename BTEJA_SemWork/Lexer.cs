@@ -59,7 +59,7 @@ namespace BTEJA_SemWork
                 {
                     ReadPoint();
                 }
-                else if (v == ' ')
+                else if (v == ' ' || v == '\u0009')
                 {
                     Pop();
                 }
@@ -169,8 +169,13 @@ namespace BTEJA_SemWork
                 char v = ' ';
                 string s = "";
                 string sLower = "";
-                while (!breakPoints.Contains(Next()) && Next() != ' ')
+                while (!breakPoints.Contains(Next()) && Next() != ' ' && Next() != '\u0009')
                 {
+                    /*char[] pole = new char[1];
+                    pole[0] = Next();
+                    byte[] asciiBytes = Encoding.ASCII.GetBytes(pole);
+                    Console.WriteLine("Znak: " + Next());
+                    Console.WriteLine("ZnakAS: " + asciiBytes[0]);*/
                     s = s + Pop().ToString();
                     if (!hasNext())
                     {

@@ -8,5 +8,9 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class DefinitionStatement : Statement
     {
+        public bool IsVal { get; set; }
+        public string Ident { get; set; }
+        public DataType? DataType { get; set; }
+        public object Value { get; set; }
     }
 }

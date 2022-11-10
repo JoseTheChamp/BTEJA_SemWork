@@ -8,5 +8,13 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class WhileStatement : Statement
     {
+        public Condition Condition { get; set; }
+        public List<Statement> Statements { get; set; }
+
+        public WhileStatement(Condition condition)
+        {
+            Condition = condition;
+            Statements = new List<Statement>();
+        }
     }
 }

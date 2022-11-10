@@ -8,5 +8,8 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class GreaterEqualCond : BinaryCondition
     {
+        public GreaterEqualCond(Expression left, Expression right) : base(left, right)
+        {
+        }
     }
 }

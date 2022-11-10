@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BTEJA_SemWork.ParserClasses.Context;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,11 @@ namespace BTEJA_SemWork.ParserClasses
         {
             Ident = ident;
             Params = new List<string>();
+        }
+
+        public override void Execute(MyExecutionContext executionContext)
+        {
+            executionContext.ProgramContext.Call(Ident,executionContext,Params);
         }
     }
 }

@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace BTEJA_SemWork.ParserClasses
 {
-    public class NegCondition : Condition
+    public class AndCondition : Condition
     {
         public Condition Condition { get; set; }
 
-        public NegCondition(Condition condition)
+        public AndCondition(Condition condition)
         {
             Condition = condition;
+        }
+
+        public override object Evaluate()
+        {
+            return Condition.Evaluate();
         }
     }
 }

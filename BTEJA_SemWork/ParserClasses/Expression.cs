@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BTEJA_SemWork.ParserClasses
 {
-    public abstract class Expression
+    public abstract class Expression : IEvaluable
     {
+        public abstract object Evaluate();
     }
 }

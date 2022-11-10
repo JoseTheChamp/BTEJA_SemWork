@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace BTEJA_SemWork.ParserClasses
 {
-    public abstract class Condition : IEvaluable
+    public interface IEvaluable
     {
-        public abstract object Evaluate(MyExecutionContext executionContext);
+        public object Evaluate(MyExecutionContext executionContext);
     }
 }

@@ -8,5 +8,8 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class LesserCond : BinaryCondition
     {
+        public LesserCond(Expression left, Expression right) : base(left, right)
+        {
+        }
     }
 }

@@ -8,5 +8,8 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class NotEqualCond : BinaryCondition
     {
+        public NotEqualCond(Expression left, Expression right) : base(left, right)
+        {
+        }
     }
 }

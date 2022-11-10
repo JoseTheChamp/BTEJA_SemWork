@@ -8,6 +8,6 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class IdentExpression : Expression
     {
-        public string  Ident { get; set; }
+        public string Ident { get; set; }
     }
 }

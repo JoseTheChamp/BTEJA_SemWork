@@ -8,6 +8,6 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public abstract class LitExpression : Expression
     {
-        public Object Value { get; set; }
+        public object Value { get; set; }
     }
 }

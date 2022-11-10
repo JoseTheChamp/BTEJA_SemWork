@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace BTEJA_SemWork.ParserClasses
 {
-    public abstract class LogCondition : Condition
+    public class LogCondition : Condition
     {
+        public List<Condition> Conditions { get; set; }
+        public LogCondition()
+        {
+            Conditions = new List<Condition>();
+        }
     }
 }

@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace BTEJA_SemWork.ParserClasses
 {
-    public class EqualCond : BinaryCondition
+    public class OrCondition : Condition
     {
-        public EqualCond(Expression left, Expression right) : base(left, right)
+        public Condition Condition { get; set; }
+
+        public OrCondition(Condition condition)
         {
+            Condition = condition;
         }
     }
 }

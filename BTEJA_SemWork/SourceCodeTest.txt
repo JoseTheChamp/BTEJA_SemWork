@@ -1,4 +1,7 @@
-﻿var x = "kalpa";
-var sum : Int = 0;
-sum = sum + x;
-print(sum);
+﻿Val konec = 5;
+Var i: Int;
+i = 0;
+while(i < konec){
+	i = i + 1;
+	print(i);
+}

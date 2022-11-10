@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BTEJA_SemWork.ParserClasses
 {
-    public class LitExpression : Expression
+    public abstract class LitExpression : Expression
     {
+        public Object Value { get; set; }
     }
 }

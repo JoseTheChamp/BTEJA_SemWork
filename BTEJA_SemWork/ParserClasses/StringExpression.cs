@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BTEJA_SemWork.ParserClasses
 {
-    public class StringExpression : Expression
+    public class StringExpression : LitExpression
     {
     }
 }

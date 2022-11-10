@@ -1,6 +1,4 @@
-﻿var x     = 0;
-var sum   :    Int = 0;
-while(    x <=    4){
-	  sum =    sum + x;
-}
-print    (sum	);
+﻿var x = "kalpa";
+var sum : Int = 0;
+sum = sum + x;
+print(sum);

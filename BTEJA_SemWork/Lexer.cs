@@ -209,18 +209,18 @@ namespace BTEJA_SemWork
                         double d = Double.Parse(s, CultureInfo.InvariantCulture);
                         if (s.Contains('.'))
                         {
-                            tokens.Add(new Token(Token.TokenType.Double, s));
+                            tokens.Add(new Token(Token.TokenType.DoubleLit, s));
                         }
                         else
                         {
-                            tokens.Add(new Token(Token.TokenType.Int, s));
+                            tokens.Add(new Token(Token.TokenType.IntLit, s));
                         }
                     }
                     catch (Exception)
                     {
                         if (Int32.TryParse(s, out num))
                         {
-                            tokens.Add(new Token(Token.TokenType.Int, s));
+                            tokens.Add(new Token(Token.TokenType.IntLit, s));
                         }
                         else if (s != "\n")
                         {
@@ -232,36 +232,10 @@ namespace BTEJA_SemWork
                             }
                             else
                             {
-                                throw new Exception("Given text does not correspond to identificator: ^[a-zA-Z_][a-zA-Z0-9_]*$ ");
+                                throw new Exception("Truly unexpected.");
                             }
                         }
                     }
-                    /*
-                    if (Double.TryParse(s, out numd))
-                    {
-                        if (numd % 1 == 0)
-                        {
-                            tokens.Add(new Token(Token.TokenType.Int, s));
-                        }
-                        else {
-                            tokens.Add(new Token(Token.TokenType.Double, s));
-                        }
-                    } else if (Int32.TryParse(s, out num)) {
-                        tokens.Add(new Token(Token.TokenType.Int, s));
-                    }
-                    else if (s != "\n")
-                    {
-                        //Figureout if ident or string
-                        string reg = @"^[a-zA-Z_][a-zA-Z0-9_]+$";
-                        if (Regex.IsMatch(s, reg))
-                        {
-                            tokens.Add(new Token(Token.TokenType.Ident, s));
-                        }
-                        else {
-                            tokens.Add(new Token(Token.TokenType.StringLit, s));
-                        }
-                    }
-                    */
                 }  
             }
             if (!hasNext())

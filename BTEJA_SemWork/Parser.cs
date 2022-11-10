@@ -1,16 +1,11 @@
 ﻿using BTEJA_SemWork.ParserClasses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BTEJA_SemWork
 {
     public class Parser
     {
         private List<Token> tokens;
-        private int index;
+        private int index = 0;
 
         public Parser(List<Token> tokens)
         {
@@ -79,7 +74,8 @@ namespace BTEJA_SemWork
                             Pop();
                             return statement;
                         } else if (Peek(1).Type == Token.TokenType.Equal) {
-                            statement = ReadCallStatement();
+       
+                            statement = ReadAssignStatement();
                             if (Peek().Type != Token.TokenType.SemiColon) throw new Exception("Expected ; after call statement [ReadStatement] Token: " + index);
                             Pop();
                             return statement;
@@ -108,7 +104,137 @@ namespace BTEJA_SemWork
 
         private Expression ReadExpression()
         {
-            throw new NotImplementedException();
+            {
+                Expression expression;
+                Token.TokenType? op = null;
+                if (Peek().Type == Token.TokenType.Plus || Peek().Type == Token.TokenType.Minus)
+                {
+                    op = Pop().Type;
+                }
+                if (op == Token.TokenType.Minus)
+                {
+                    MinusUnary minusUnary = new MinusUnary();
+                    minusUnary.Expression= ReadTerm();
+                    expression = minusUnary;
+                }
+                else if (op == Token.TokenType.Plus)
+                {
+                    PlusUnary plusUnary = new PlusUnary();
+                    plusUnary.Expression = ReadTerm();
+                    expression = plusUnary;
+                }
+                else
+                {
+                    expression = ReadTerm();
+                }
+                while (Peek() != null && (Peek().Type == Token.TokenType.Plus || Peek().Type == Token.TokenType.Minus))
+                {
+                    op = Pop().Type;
+                    if (op == Token.TokenType.Minus)
+                    {
+                        Minus minus = new Minus();
+                        minus.Left = expression;
+                        minus.Right = ReadTerm();
+                        expression = minus;
+                    }
+                    else
+                    {
+                        Plus plus = new Plus();
+                        plus.Left = expression;
+                        plus.Right = ReadTerm();
+                        expression = plus;
+                    }
+                }
+                return expression;
+            }
+        }
+
+        private Expression ReadTerm()
+        {
+            Expression expression;
+            Token.TokenType op;
+            expression = ReadFactor();
+            while (Peek() != null && (Peek().Type == Token.TokenType.Multiplication || Peek().Type == Token.TokenType.Division))
+            {
+                op = Pop().Type;
+                if (op == Token.TokenType.Division)
+                {
+                    Divide divide = new Divide();
+                    divide.Left = expression;
+                    divide.Right = ReadFactor();
+                    expression = divide;
+
+                }
+                else if (op == Token.TokenType.Multiplication)
+                {
+                    Multiply multiply = new Multiply();
+                    multiply.Left = expression;
+                    multiply.Right = ReadFactor();
+                    expression = multiply;
+                }
+                else
+                {
+                    throw new Exception("Expected * or /");
+                }
+            }
+            return expression;
+        }
+
+        private Expression ReadFactor()
+        {
+            Expression expression;
+            if (Peek().Type == Token.TokenType.LeftParenthesis)
+            {
+                Pop();
+                expression = ReadExpression();
+                if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) [ReadFactorStatement] Token: " + index);
+                Pop();
+            }
+            else
+            {
+                switch (Peek().Type)
+                {
+                    case Token.TokenType.DoubleLit: return expression = ReadDoubleExpression();
+                    case Token.TokenType.IntLit: return expression = ReadIntExpression();
+                    case Token.TokenType.Quotation: return expression = ReadStringExpression();
+                    case Token.TokenType.Ident: return expression = ReadIdentExpression();
+                    default:
+                        throw new Exception("Expected ident/StringLit/doubleLit/intLit [ReadFactorStatement] Token: " + index);
+                }
+            }
+            return expression;
+        }
+
+        private Expression ReadDoubleExpression()
+        {
+            DoubleExpression doubleExpression = new DoubleExpression();
+            doubleExpression.Value = Pop().Value;
+            return doubleExpression;
+        }
+
+        private Expression ReadIntExpression()
+        {
+            IntExpression intExpression = new IntExpression();
+            intExpression.Value = Pop().Value;
+            return intExpression;
+        }
+
+        private Expression ReadStringExpression()
+        {
+            if (Peek().Type != Token.TokenType.Quotation) throw new Exception("Expected \" before string [ReadStringExpression] Token: " + index);
+            Pop();
+            StringExpression stringExpression = new StringExpression();
+            stringExpression.Value = Pop().Value;
+            if (Peek().Type != Token.TokenType.Quotation) throw new Exception("Expected \" after string [ReadStringExpression] Token: " + index);
+            Pop();
+            return stringExpression;
+        }
+
+        private Expression ReadIdentExpression()
+        {
+            IdentExpression identExpression = new IdentExpression();
+            identExpression.Ident = Pop().Value;
+            return identExpression;
         }
 
         private Statement ReadCallStatement()
@@ -259,7 +385,7 @@ namespace BTEJA_SemWork
         }
         private Statement ReadDefinitionStatement()
         {
-            if (Peek().Type != Token.TokenType.Val || Peek().Type != Token.TokenType.Var) throw new Exception("Expected Var or Val [ReadDefinitionStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.Val && Peek().Type != Token.TokenType.Var) throw new Exception("Expected Var or Val [ReadDefinitionStatement] Token: " + index);
             DefinitionStatement definitionStatement = new DefinitionStatement();
             if (Pop().Type == Token.TokenType.Var)
             {
@@ -268,7 +394,7 @@ namespace BTEJA_SemWork
             else {
                 definitionStatement.IsVal = true;
             }
-            if (Peek().Type != Token.TokenType.Val || Peek().Type != Token.TokenType.Var) throw new Exception("Expected ident after var/val [ReadDefinitionStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected ident after var/val [ReadDefinitionStatement] Token: " + index);
             definitionStatement.Ident = Pop().Value;
             if (Peek().Type == Token.TokenType.Colon)
             {
@@ -287,7 +413,7 @@ namespace BTEJA_SemWork
                 switch (Peek().Type)
                 {
                     case Token.TokenType.DoubleLit:
-                        if (Peek().Type != Token.TokenType.Return) throw new Exception("Expected Return [ReadReturnStatement] Token: " + index);
+                        if (Peek().Type != Token.TokenType.Return) throw new Exception("Expected Return [ReadDefinitionStatement] Token: " + index);
                         definitionStatement.DataType = DataType.Double;
                         definitionStatement.Value = Pop().Value;
                         break;
@@ -295,9 +421,9 @@ namespace BTEJA_SemWork
                         definitionStatement.DataType = DataType.Int;
                         definitionStatement.Value = Pop().Value;
                         break;
-                    case Token.TokenType.StringLit:
+                    case Token.TokenType.Quotation:
                         definitionStatement.DataType = DataType.String;
-                        definitionStatement.Value = Pop().Value;
+                        definitionStatement.Value = ((StringExpression)ReadStringExpression()).Value;
                         break;
                     default:
                         throw new Exception("Expected stringlit/doublelit/intlit [ReadDefinitionStatement] Token: " + index);

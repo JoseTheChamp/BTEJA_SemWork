@@ -4,6 +4,11 @@
     {
         public List<Function> Functions { get; set; }
 
+        public ProgramContext()
+        {
+            Functions = new List<Function>();
+        }
+
         public ProgramContext(List<Function> functions)
         {
             Functions = functions;
@@ -18,13 +23,12 @@
             }
             Functions.Add(function);
         }
-        public void Call(string ident, MyExecutionContext executionContext, List<string> paramss) {
+        public object? Call(string ident, MyExecutionContext executionContext, List<string> paramss) {
             foreach (Function fun in Functions)
             {
                 if (fun.Ident == ident)
                 {
-                    fun.Execute(executionContext,paramss);
-                    return;
+                    return fun.Execute(executionContext,paramss);  
                 }
             }
             throw new Exception("This method was not defined. [" + ident + "]");

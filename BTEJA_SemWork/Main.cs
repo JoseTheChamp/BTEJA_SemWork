@@ -3,6 +3,7 @@
 
 
 using BTEJA_SemWork;
+using BTEJA_SemWork.ParserClasses;
 
 Lexer lexer = new Lexer();
 string text = System.IO.File.ReadAllText(@"C:\Projects\C#\BTEJA_SemWork\BTEJA_SemWork\SourceCodeTest.txt");
@@ -21,5 +22,7 @@ for (int i = 0; i < tokens.Count;i++)
 }
 
 Parser parser = new Parser(tokens);
-parser.Parse();
+ProgramAST programAST = parser.Parse();
 Console.WriteLine("PARSED");
+programAST.Run();
+Console.WriteLine("Run finished");

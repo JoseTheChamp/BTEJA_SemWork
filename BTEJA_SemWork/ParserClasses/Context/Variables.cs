@@ -12,6 +12,7 @@ namespace BTEJA_SemWork.ParserClasses.Context
 
         public Variables()
         {
+            Vars = new List<Variable>();
         }
         public Variables(List<Variable> vars)
         {

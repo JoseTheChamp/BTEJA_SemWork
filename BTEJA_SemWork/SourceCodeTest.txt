@@ -1,7 +1,3 @@
-﻿Val konec = 5;
-Var i: Int;
-i = 0;
-while(i < konec){
-	i = i + 1;
-	print(i);
-}
+﻿var a = 5;
+var b: int;
+b = a + a;

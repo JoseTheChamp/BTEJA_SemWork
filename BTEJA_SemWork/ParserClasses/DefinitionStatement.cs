@@ -16,7 +16,7 @@ namespace BTEJA_SemWork.ParserClasses
 
         public override void Execute(MyExecutionContext executionContext)
         {
-            executionContext.Variables.AddVariable(new Variable(Ident,IsVal,DataType,Value));));
+            executionContext.Variables.AddVariable(new Variable(Ident,IsVal,DataType,Value));
         }
     }
 }

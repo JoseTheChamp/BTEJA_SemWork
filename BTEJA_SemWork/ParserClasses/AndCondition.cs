@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BTEJA_SemWork.ParserClasses.Context;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,9 +16,9 @@ namespace BTEJA_SemWork.ParserClasses
             Condition = condition;
         }
 
-        public override object Evaluate()
+        public override object Evaluate(MyExecutionContext executionContext)
         {
-            return Condition.Evaluate();
+            return Convert.ToBoolean(Condition.Evaluate(executionContext));
         }
     }
 }

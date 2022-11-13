@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BTEJA_SemWork.ParserClasses.Context;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,11 @@ namespace BTEJA_SemWork.ParserClasses
         public ReturnStatement(Expression expression)
         {
             Expression = expression;
+        }
+
+        public override void Execute(MyExecutionContext executionContext)
+        {
+            throw new Exception("This returnstatement is called directly.[interpreting]");
         }
     }
 }

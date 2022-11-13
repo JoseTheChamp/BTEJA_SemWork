@@ -197,7 +197,12 @@ namespace BTEJA_SemWork
                     case Token.TokenType.DoubleLit: return ReadDoubleExpression();
                     case Token.TokenType.IntLit: return ReadIntExpression();
                     case Token.TokenType.Quotation: return ReadStringExpression();
-                    case Token.TokenType.Ident: return ReadIdentExpression();
+                    case Token.TokenType.Ident:
+                        if (Peek(1).Type == Token.TokenType.LeftParenthesis)
+                        {
+                            return ReadCallExpression();
+                        }
+                        return ReadIdentExpression();
                     default:
                         throw new Exception("Expected ident/StringLit/doubleLit/intLit [ReadFactorStatement] Token: " + index);
                 }
@@ -258,6 +263,26 @@ namespace BTEJA_SemWork
             if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) [ReadCallStatement] Token: " + index);
             Pop();
             return callStatement;
+        }
+
+        private Expression ReadCallExpression() {
+            if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT  [ReadCallExpression] Token: " + index);
+            CallExpression callExpression = new CallExpression(Pop().Value);
+            if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected ( after ident [ReadCallExpression] Token: " + index);
+            Pop();
+            if (Peek().Type == Token.TokenType.Ident)
+            {
+                callExpression.Parameters.Add(Pop().Value);
+                while (Peek().Type == Token.TokenType.Comma)
+                {
+                    Pop();
+                    if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT after , [ReadCallExpression] Token: " + index);
+                    callExpression.Parameters.Add(Pop().Value);
+                }
+            }
+            if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) [ReadCallExpression] Token: " + index);
+            Pop();
+            return callExpression;
         }
 
         private Statement ReadFunctionStatement()
@@ -451,15 +476,20 @@ namespace BTEJA_SemWork
                             definitionStatement.DataType = DataType.Double;
                             definitionStatement.Value = Pop().Value;
                         }
-                        throw new Exception("Specified datatype and value do not match [ReadDefinitionStatement] Token: " + index);
+                        else {
+                            throw new Exception("Specified datatype and value do not match [ReadDefinitionStatement] Token: " + index);
+                        }
                         break;
                     case Token.TokenType.IntLit:
                         if (holder == DataType.Int || holder == null)
                         {
+                            Console.WriteLine("Zadavam int value u definice");
                             definitionStatement.DataType = DataType.Int;
                             definitionStatement.Value = Pop().Value;
                         }
-                        throw new Exception("Specified datatype and value do not match [ReadDefinitionStatement] Token: " + index);
+                        else {
+                            throw new Exception("Specified datatype and value do not match [ReadDefinitionStatement] Token: " + index);
+                        }                        
                         break;
                     case Token.TokenType.Quotation:
                         if (holder == DataType.String || holder == null)
@@ -476,6 +506,7 @@ namespace BTEJA_SemWork
             if (definitionStatement.DataType == null) {
                 throw new Exception("Either specify datatype of inicialize variable [ReadDefinitionStatement] Token: " + index);
             }
+            Console.WriteLine("Parsing def: " + definitionStatement.DataType);
             return definitionStatement;
         }
     }

@@ -23,7 +23,7 @@
             }
             Functions.Add(function);
         }
-        public object? Call(string ident, MyExecutionContext executionContext, List<string> paramss) {
+        public object? Call(string ident, MyExecutionContext executionContext, List<Expression> paramss) {
             foreach (Function fun in Functions)
             {
                 if (fun.Ident == ident)
@@ -31,7 +31,16 @@
                     return fun.Execute(executionContext,paramss);  
                 }
             }
+            if (ident == "print")
+            {
+                print(Convert.ToString(paramss[0]?.Evaluate(executionContext)));
+                return null;
+            }
             throw new Exception("This method was not defined. [" + ident + "]");
+        }
+
+        private void print(string str) {
+            Console.WriteLine(str);
         }
     }
 }

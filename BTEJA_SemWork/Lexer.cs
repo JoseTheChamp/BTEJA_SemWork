@@ -16,21 +16,8 @@ namespace BTEJA_SemWork
         private bool konec = false;
         private List<Token> tokens = new List<Token>();
         private bool isReadingString = false;
-
-        public Token PeekToken()
-        {
-            if (tokenIndex < tokens.Count)
-            {
-                return tokens[tokenIndex];
-            }
-            return null;
-        }
-
-        public Token ReadToken()
-        {
-            tokenIndex++;
-            return tokens[tokenIndex - 1];
-        }
+        private int line = 1;
+        private int lineToken;
 
         private char Next()
         {
@@ -46,6 +33,17 @@ namespace BTEJA_SemWork
             if (index <= vstup.Length - 1) return true;
             return false;
         }
+
+        private Token GetToken(Token.TokenType tokenType) {
+            lineToken++;
+            return new Token(tokenType,line,lineToken-1);
+        }
+        private Token GetToken(Token.TokenType tokenType,string value)
+        {
+            lineToken++;
+            return new Token(tokenType,line,lineToken - 1,value);
+        }
+
         private List<char> breakPoints = new List<char>(new char[] {'!', ',', ';', '=', ':', '<', '>', '+', '-', '*', '/', '(', ')', '%','{','}','&','|','"', '\n', '\r' });
         private List<string> keyWords = new List<string>(new string[] { "double", "int", "var", "val", "string", "if", "else", "while", "return" , "fun"});
         public List<Token> Lexicate(String vstup)
@@ -83,25 +81,25 @@ namespace BTEJA_SemWork
                 if (hasNext())
                 {
                     v2 = Next();
-                        //case ':': tokens.Add(new Token(Token.TokenType.Colon)); break;
+                        //case ':': tokens.Add(GetToken(Token.TokenType.Colon)); break;
                         switch (v2)
                         {
-                            case '&': Pop(); tokens.Add(new Token(Token.TokenType.And)); break;
-                            case '|': Pop(); tokens.Add(new Token(Token.TokenType.Or)); break;
+                            case '&': Pop(); tokens.Add(GetToken(Token.TokenType.And)); break;
+                            case '|': Pop(); tokens.Add(GetToken(Token.TokenType.Or)); break;
                             case '=':
                             if (v == '>')
                             {
                                 Pop();
-                                tokens.Add(new Token(Token.TokenType.GreaterEqual));
+                                tokens.Add(GetToken(Token.TokenType.GreaterEqual));
                             } else if (v == '<') {
                                 Pop();
-                                tokens.Add(new Token(Token.TokenType.SmallerEqual));
+                                tokens.Add(GetToken(Token.TokenType.SmallerEqual));
                             } else if (v == '=') {
                                 Pop();
-                                tokens.Add(new Token(Token.TokenType.DoubleEqual));
+                                tokens.Add(GetToken(Token.TokenType.DoubleEqual));
                             } else if (v == '!') {
                                 Pop();
-                                tokens.Add(new Token(Token.TokenType.NotEqual));
+                                tokens.Add(GetToken(Token.TokenType.NotEqual));
                             }
                             else {
                                 throw new Exception("Inproper Symbol [ & , | ....]");
@@ -110,10 +108,10 @@ namespace BTEJA_SemWork
                             default:
                             switch (v)
                             {
-                                case '<': tokens.Add(new Token(Token.TokenType.Smaller)); break;
-                                case '>': tokens.Add(new Token(Token.TokenType.Greater)); break;
-                                case '=': tokens.Add(new Token(Token.TokenType.Equal)); break;
-                                case '!': tokens.Add(new Token(Token.TokenType.Exclamation)); break;
+                                case '<': tokens.Add(GetToken(Token.TokenType.Smaller)); break;
+                                case '>': tokens.Add(GetToken(Token.TokenType.Greater)); break;
+                                case '=': tokens.Add(GetToken(Token.TokenType.Equal)); break;
+                                case '!': tokens.Add(GetToken(Token.TokenType.Exclamation)); break;
                                 default: throw new Exception("Inproper Symbol [ & , | ....]"); break;
                             }
                             break;
@@ -128,22 +126,22 @@ namespace BTEJA_SemWork
             {
                 switch (v)
                 {
-                    case ',': tokens.Add(new Token(Token.TokenType.Comma)); break;
-                    case ';': tokens.Add(new Token(Token.TokenType.SemiColon)); break;
-                    case '+': tokens.Add(new Token(Token.TokenType.Plus)); break;
-                    case '-': tokens.Add(new Token(Token.TokenType.Minus)); break;
-                    case '*': tokens.Add(new Token(Token.TokenType.Multiplication)); break;
-                    case '/': tokens.Add(new Token(Token.TokenType.Division)); break;
-                    case '(': tokens.Add(new Token(Token.TokenType.LeftParenthesis)); break;
-                    case ')': tokens.Add(new Token(Token.TokenType.RightParenthesis)); break;
-                    case '{': tokens.Add(new Token(Token.TokenType.LeftBracket)); break;
-                    case '}': tokens.Add(new Token(Token.TokenType.RightBracket)); break;
-                    case ':': tokens.Add(new Token(Token.TokenType.Colon)); break;
+                    case ',': tokens.Add(GetToken(Token.TokenType.Comma)); break;
+                    case ';': tokens.Add(GetToken(Token.TokenType.SemiColon)); break;
+                    case '+': tokens.Add(GetToken(Token.TokenType.Plus)); break;
+                    case '-': tokens.Add(GetToken(Token.TokenType.Minus)); break;
+                    case '*': tokens.Add(GetToken(Token.TokenType.Multiplication)); break;
+                    case '/': tokens.Add(GetToken(Token.TokenType.Division)); break;
+                    case '(': tokens.Add(GetToken(Token.TokenType.LeftParenthesis)); break;
+                    case ')': tokens.Add(GetToken(Token.TokenType.RightParenthesis)); break;
+                    case '{': tokens.Add(GetToken(Token.TokenType.LeftBracket)); break;
+                    case '}': tokens.Add(GetToken(Token.TokenType.RightBracket)); break;
+                    case ':': tokens.Add(GetToken(Token.TokenType.Colon)); break;
                     case '"':
                         isReadingString = !isReadingString;
-                        tokens.Add(new Token(Token.TokenType.Quotation));
+                        tokens.Add(GetToken(Token.TokenType.Quotation));
                         break;
-                    case '\n': break;
+                    case '\n': line++; lineToken = 1; break;
                     case '\r': break;
                 }
             }
@@ -162,7 +160,7 @@ namespace BTEJA_SemWork
                         break;
                     }
                 }
-                tokens.Add(new Token(Token.TokenType.StringLit, s));
+                tokens.Add(GetToken(Token.TokenType.StringLit, s));
             }
             else
             {
@@ -188,16 +186,16 @@ namespace BTEJA_SemWork
                 {
                     switch (sLower)
                     {
-                        case "fun": tokens.Add(new Token(Token.TokenType.Fun)); break;
-                        case "var": tokens.Add(new Token(Token.TokenType.Var)); break;
-                        case "val": tokens.Add(new Token(Token.TokenType.Val)); break;
-                        case "if": tokens.Add(new Token(Token.TokenType.If)); break;
-                        case "else": tokens.Add(new Token(Token.TokenType.Else)); break;
-                        case "while": tokens.Add(new Token(Token.TokenType.While)); break;
-                        case "return": tokens.Add(new Token(Token.TokenType.Return)); break;
-                        case "int": tokens.Add(new Token(Token.TokenType.Int)); break;
-                        case "string": tokens.Add(new Token(Token.TokenType.String)); break;
-                        case "double": tokens.Add(new Token(Token.TokenType.Double)); break;
+                        case "fun": tokens.Add(GetToken(Token.TokenType.Fun)); break;
+                        case "var": tokens.Add(GetToken(Token.TokenType.Var)); break;
+                        case "val": tokens.Add(GetToken(Token.TokenType.Val)); break;
+                        case "if": tokens.Add(GetToken(Token.TokenType.If)); break;
+                        case "else": tokens.Add(GetToken(Token.TokenType.Else)); break;
+                        case "while": tokens.Add(GetToken(Token.TokenType.While)); break;
+                        case "return": tokens.Add(GetToken(Token.TokenType.Return)); break;
+                        case "int": tokens.Add(GetToken(Token.TokenType.Int)); break;
+                        case "string": tokens.Add(GetToken(Token.TokenType.String)); break;
+                        case "double": tokens.Add(GetToken(Token.TokenType.Double)); break;
                     }
                 }
                 else
@@ -209,18 +207,18 @@ namespace BTEJA_SemWork
                         double d = Double.Parse(s, CultureInfo.InvariantCulture);
                         if (s.Contains('.'))
                         {
-                            tokens.Add(new Token(Token.TokenType.DoubleLit, s));
+                            tokens.Add(GetToken(Token.TokenType.DoubleLit, s));
                         }
                         else
                         {
-                            tokens.Add(new Token(Token.TokenType.IntLit, s));
+                            tokens.Add(GetToken(Token.TokenType.IntLit, s));
                         }
                     }
                     catch (Exception)
                     {
                         if (Int32.TryParse(s, out num))
                         {
-                            tokens.Add(new Token(Token.TokenType.IntLit, s));
+                            tokens.Add(GetToken(Token.TokenType.IntLit, s));
                         }
                         else if (s != "\n")
                         {
@@ -228,7 +226,7 @@ namespace BTEJA_SemWork
                             string reg = @"^[a-zA-Z_][a-zA-Z0-9_]*$";
                             if (Regex.IsMatch(s, reg))
                             {
-                                tokens.Add(new Token(Token.TokenType.Ident, s));
+                                tokens.Add(GetToken(Token.TokenType.Ident, s));
                             }
                             else
                             {

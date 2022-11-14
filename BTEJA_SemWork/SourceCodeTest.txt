@@ -1,3 +1,8 @@
 ﻿var a = 5;
-var b: int;
-b = a + a;
+var b = 15;
+fun ahoj() : Int {
+	b = b - a;
+	return b;
+}
+b = ahoj() - 1;
+print(b);

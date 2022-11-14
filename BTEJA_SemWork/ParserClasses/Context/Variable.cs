@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BTEJA_SemWork.ParserClasses.Context
 {
-    public class Variable
+    public class Variable : ICloneable
     {
         public string Ident { get; set; }
         public bool IsVal { get; set; }
@@ -19,6 +19,11 @@ namespace BTEJA_SemWork.ParserClasses.Context
             IsVal = isVal;
             DataType = dataType;
             Value = value;
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

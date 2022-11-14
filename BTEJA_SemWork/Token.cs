@@ -9,6 +9,8 @@ namespace BTEJA_SemWork
     public class Token
     {
         public TokenType Type { get; set; }
+        public int Line { get; set; }
+        public int LineToken { get; set; }
         public String? Value { get; set; }
         public enum TokenType
         {
@@ -50,12 +52,14 @@ namespace BTEJA_SemWork
             Quotation
         }
 
-        public Token(TokenType type)
+        public Token(TokenType type, int line, int lineToken)
         {
             Type = type;
+            Line = line;
+            LineToken = lineToken;
         }
 
-        public Token(TokenType Type, string value) : this(Type)
+        public Token(TokenType type, int line, int lineToken, string? value) : this(type, line, lineToken)
         {
             Value = value;
         }

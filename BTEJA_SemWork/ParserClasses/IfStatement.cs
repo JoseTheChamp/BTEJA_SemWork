@@ -17,9 +17,18 @@ namespace BTEJA_SemWork.ParserClasses
             Statements = new List<Statement>();
         }
 
-        public override void Execute(MyExecutionContext executionContext)
+        public override object? Execute(MyExecutionContext executionContext)
         {
-            throw new NotImplementedException();
+            if (Convert.ToBoolean(Condition.Evaluate(executionContext)))
+            {
+                MyExecutionContext innerExecutionContext = (MyExecutionContext)executionContext.Clone();
+                foreach (Statement statement in Statements)
+                {
+                    object? result = statement.Execute(innerExecutionContext);
+                    if (result != null) return result;
+                }
+            }
+            return null;
         }
     }
 }

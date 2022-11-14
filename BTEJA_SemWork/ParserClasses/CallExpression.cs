@@ -10,12 +10,12 @@ namespace BTEJA_SemWork.ParserClasses
     public class CallExpression : Expression
     {
         public string Ident { get; set; }
-        public List<string> Parameters { get; set; }
+        public List<Expression> Parameters { get; set; }
 
         public CallExpression(string ident)
         {
             Ident = ident;
-            Parameters = new List<string>();
+            Parameters = new List<Expression>();
         }
 
         public override object Evaluate(MyExecutionContext executionContext)

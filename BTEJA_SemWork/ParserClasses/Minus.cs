@@ -15,7 +15,7 @@ namespace BTEJA_SemWork.ParserClasses
             switch (Type.GetTypeCode(leftValue.GetType()))
             {
                 case TypeCode.Int32:
-                    if (Right.Evaluate(executionContext).GetType() == Left.GetType())
+                    if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
                     {
                         return (int)(Convert.ToInt32(leftValue) - Convert.ToInt32(Right.Evaluate(executionContext)));
                     }
@@ -24,7 +24,7 @@ namespace BTEJA_SemWork.ParserClasses
                         throw new Exception("Subtract: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.Double:
-                    if (Right.Evaluate(executionContext).GetType() == Left.GetType())
+                    if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
                     {
                         return Convert.ToDouble(leftValue) - Convert.ToDouble(Right.Evaluate(executionContext));
                     }
@@ -33,7 +33,7 @@ namespace BTEJA_SemWork.ParserClasses
                         throw new Exception("Subtract: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.String:
-                    throw new Exception("Subtract: Dividing strings is not supported.[Interpreting]");
+                    throw new Exception("Subtract: Substracting strings is not supported.[Interpreting]");
                 default:
                     break;
             }

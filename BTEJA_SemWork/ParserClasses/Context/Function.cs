@@ -21,19 +21,19 @@ namespace BTEJA_SemWork.ParserClasses.Context
             Statements = statements;
         }
 
-        public object? Execute(MyExecutionContext executionContext,List<string> paramss) {
+        public object? Execute(MyExecutionContext executionContext,List<Expression> paramss) {
             //Execution kontex obohatit o parametry
             foreach (Statement statement in Statements)
             {
-                if (ReturnType != null && statement.GetType() == typeof(ReturnStatement))
+                object? result = statement.Execute(executionContext);
+                if (result != null)
                 {
-                    object value = ((ReturnStatement)statement).Expression.Evaluate(executionContext);
-                    switch (Type.GetTypeCode(value.GetType()))
+                    switch (Type.GetTypeCode(result.GetType()))
                     {
                         case TypeCode.Int32:
                             if (ReturnType == DataType.Int)
                             {
-                                return Convert.ToInt32(value);
+                                return Convert.ToInt32(result);
                             }
                             else {
                                 throw new Exception("Function: " + Ident + "- this function was supposed to return int.[Interpreting]");
@@ -41,7 +41,7 @@ namespace BTEJA_SemWork.ParserClasses.Context
                         case TypeCode.Double:
                             if (ReturnType == DataType.Double)
                             {
-                                return Convert.ToInt32(value);
+                                return Convert.ToDouble(result);
                             }
                             else
                             {
@@ -50,7 +50,7 @@ namespace BTEJA_SemWork.ParserClasses.Context
                         case TypeCode.String:
                             if (ReturnType == DataType.String)
                             {
-                                return Convert.ToInt32(value);
+                                return Convert.ToString(result);
                             }
                             else
                             {
@@ -60,7 +60,6 @@ namespace BTEJA_SemWork.ParserClasses.Context
                             throw new Exception("Function: unexpected error.[Interpreting]");
                     }
                 }
-                statement.Execute(executionContext);
             }
             if (ReturnType != null)
             {

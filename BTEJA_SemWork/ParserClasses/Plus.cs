@@ -11,13 +11,12 @@ namespace BTEJA_SemWork.ParserClasses
     {
         public override object Evaluate(MyExecutionContext executionContext)
         {
+            Console.WriteLine("Substract");
             object leftValue = Left.Evaluate(executionContext);
-            Console.WriteLine("Left type: " + Left.GetType());
-            Console.WriteLine("Leftvalue type: " + leftValue.GetType());
             switch (Type.GetTypeCode(leftValue.GetType()))
             {
                 case TypeCode.Int32:
-                    if (Right.Evaluate(executionContext).GetType() == Left.GetType())
+                    if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
                     {
                         return (int)(Convert.ToInt32(leftValue) + Convert.ToInt32(Right.Evaluate(executionContext)));
                     }
@@ -26,7 +25,7 @@ namespace BTEJA_SemWork.ParserClasses
                         throw new Exception("Addition: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.Double:
-                    if (Right.Evaluate(executionContext).GetType() == Left.GetType())
+                    if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
                     {
                         return Convert.ToDouble(leftValue) + Convert.ToDouble(Right.Evaluate(executionContext));
                     }

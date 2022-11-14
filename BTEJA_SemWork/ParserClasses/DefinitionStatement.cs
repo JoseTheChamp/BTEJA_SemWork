@@ -14,9 +14,10 @@ namespace BTEJA_SemWork.ParserClasses
         public DataType DataType { get; set; }
         public object Value { get; set; }
 
-        public override void Execute(MyExecutionContext executionContext)
+        public override object? Execute(MyExecutionContext executionContext)
         {
             executionContext.Variables.AddVariable(new Variable(Ident,IsVal,DataType,Value));
+            return null;
         }
     }
 }

@@ -16,9 +16,9 @@ namespace BTEJA_SemWork.ParserClasses
             Expression = expression;
         }
 
-        public override void Execute(MyExecutionContext executionContext)
+        public override object? Execute(MyExecutionContext executionContext)
         {
-            throw new Exception("This returnstatement is called directly.[interpreting]");
+            return Expression.Evaluate(executionContext);
         }
     }
 }

@@ -21,9 +21,10 @@ namespace BTEJA_SemWork.ParserClasses
             Statements = new List<Statement>();
         }
 
-        public override void Execute(MyExecutionContext executionContext)
+        public override object? Execute(MyExecutionContext executionContext)
         {
             executionContext.ProgramContext.AddFunction(new Function(Ident,ReturnType,Parameters,Statements));
+            return null;
         }
     }
 }

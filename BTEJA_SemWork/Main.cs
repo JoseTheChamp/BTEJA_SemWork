@@ -13,11 +13,11 @@ for (int i = 0; i < tokens.Count;i++)
 {
     if (tokens[i].Value != null)
     {
-        Console.WriteLine("Token[" + i + "]:  " + tokens[i].Type.ToString() + "  " + tokens[i].Value.ToString());
+        Console.WriteLine(tokens[i].Line + "-" + tokens[i].LineToken + " " + tokens[i].Type.ToString() + "  " + tokens[i].Value.ToString());
     }
     else
     {
-        Console.WriteLine("Token[" + i + "]:  " + tokens[i].Type.ToString());
+        Console.WriteLine(tokens[i].Line + "-" + tokens[i].LineToken + " " + tokens[i].Type.ToString());
     }
 }
 
@@ -25,4 +25,4 @@ Parser parser = new Parser(tokens);
 ProgramAST programAST = parser.Parse();
 Console.WriteLine("PARSED");
 programAST.Run();
-Console.WriteLine("Run finished");
+Console.WriteLine("RUN FINISHED");

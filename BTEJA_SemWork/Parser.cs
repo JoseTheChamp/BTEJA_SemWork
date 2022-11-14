@@ -49,19 +49,19 @@ namespace BTEJA_SemWork
                 case Token.TokenType.While: return ReadWhileStatement();
                 case Token.TokenType.Return:
                     statement = ReadReturnStatement();
-                    if (Peek().Type != Token.TokenType.SemiColon) throw new Exception("Expected ; after return statement [ReadStatement] Token: " + index);
+                    if (Peek().Type != Token.TokenType.SemiColon) throw new Exception("Expected ; after return statement [ReadStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                     Pop();
                     return statement;
                 case Token.TokenType.If: return ReadIfStatement();
                 case Token.TokenType.Fun: return ReadFunctionStatement();
                 case Token.TokenType.Var: 
                     statement = ReadDefinitionStatement();
-                    if (Peek().Type != Token.TokenType.SemiColon) throw new Exception("Expected ; after call statement [ReadStatement] Token: " + index);
+                    if (Peek().Type != Token.TokenType.SemiColon) throw new Exception("Expected ; after call statement [ReadStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                     Pop();
                     return statement;
                 case Token.TokenType.Val:
                     statement = ReadDefinitionStatement();
-                    if (Peek().Type != Token.TokenType.SemiColon) throw new Exception("Expected ; after call statement [ReadStatement] Token: " + index);
+                    if (Peek().Type != Token.TokenType.SemiColon) throw new Exception("Expected ; after call statement [ReadStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                     Pop();
                     return statement;
                 default:
@@ -70,32 +70,32 @@ namespace BTEJA_SemWork
                         if (Peek(1).Type == Token.TokenType.LeftParenthesis)
                         {
                             statement = ReadCallStatement();
-                            if (Peek().Type != Token.TokenType.SemiColon) throw new Exception("Expected ; after call statement [ReadStatement] Token: " + index);
+                            if (Peek().Type != Token.TokenType.SemiColon) throw new Exception("Expected ; after call statement [ReadStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                             Pop();
                             return statement;
                         } else if (Peek(1).Type == Token.TokenType.Equal) {
        
                             statement = ReadAssignStatement();
-                            if (Peek().Type != Token.TokenType.SemiColon) throw new Exception("Expected ; after call statement [ReadStatement] Token: " + index);
+                            if (Peek().Type != Token.TokenType.SemiColon) throw new Exception("Expected ; after call statement [ReadStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                             Pop();
                             return statement;
                         }
                         else {
-                            throw new Exception("Incorrect start of a statement. [ReadStatement] Token: " + index);
+                            throw new Exception("Incorrect start of a statement. [ReadStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                         }
                     }
                     else {
-                        throw new Exception("Expected start of a statement. [ReadStatement] Token: " + index);
+                        throw new Exception("Expected start of a statement. [ReadStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                     }
             }
         }
 
         private Statement ReadAssignStatement()
         {
-            if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT [ReadAssignStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT [ReadAssignStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             //Console.WriteLine("AT ident: " + lexer.PeekToken().Value);
             var ident = Pop().Value;
-            if (Peek().Type != Token.TokenType.Equal) throw new Exception("Expected = [ReadAssignStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.Equal) throw new Exception("Expected = [ReadAssignStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             Expression expr = ReadExpression();
             //Console.WriteLine(lexer.PeekToken().Type);
@@ -174,7 +174,7 @@ namespace BTEJA_SemWork
                 }
                 else
                 {
-                    throw new Exception("Expected * or /");
+                    throw new Exception("Expected * or / [ReadTermStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                 }
             }
             return expression;
@@ -187,7 +187,7 @@ namespace BTEJA_SemWork
             {
                 Pop();
                 expression = ReadExpression();
-                if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) [ReadFactorStatement] Token: " + index);
+                if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) [ReadFactorStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                 Pop();
             }
             else
@@ -204,7 +204,7 @@ namespace BTEJA_SemWork
                         }
                         return ReadIdentExpression();
                     default:
-                        throw new Exception("Expected ident/StringLit/doubleLit/intLit [ReadFactorStatement] Token: " + index);
+                        throw new Exception("Expected ident/StringLit/doubleLit/intLit [ReadFactorStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                 }
             }
             return expression;
@@ -226,11 +226,11 @@ namespace BTEJA_SemWork
 
         private Expression ReadStringExpression()
         {
-            if (Peek().Type != Token.TokenType.Quotation) throw new Exception("Expected \" before string [ReadStringExpression] Token: " + index);
+            if (Peek().Type != Token.TokenType.Quotation) throw new Exception("Expected \" before string [ReadStringExpression] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             StringExpression stringExpression = new StringExpression();
             stringExpression.Value = Pop().Value;
-            if (Peek().Type != Token.TokenType.Quotation) throw new Exception("Expected \" after string [ReadStringExpression] Token: " + index);
+            if (Peek().Type != Token.TokenType.Quotation) throw new Exception("Expected \" after string [ReadStringExpression] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             return stringExpression;
         }
@@ -244,88 +244,86 @@ namespace BTEJA_SemWork
 
         private Statement ReadCallStatement()
         {
-            if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT [ReadCallStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT [ReadCallStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             //Console.WriteLine("AT ident: " + lexer.PeekToken().Value);
             var ident = Pop().Value;
-            if (Peek().Type != Token.TokenType.LeftParenthesis) throw new Exception("Expected ( [ReadCallStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.LeftParenthesis) throw new Exception("Expected ( [ReadCallStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             CallStatement callStatement = new CallStatement(ident);
-            if (Peek().Type == Token.TokenType.Ident)
+            if (Peek().Type != Token.TokenType.RightParenthesis)
             {
-                callStatement.Params.Add(Pop().Value);
+                callStatement.Params.Add(ReadExpression());
                 while (Peek().Type == Token.TokenType.Comma)
                 {
                     Pop();
-                    if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT after , [ReadCallStatement] Token: " + index);
-                    callStatement.Params.Add(Pop().Value);
+                    callStatement.Params.Add(ReadExpression());
                 }
             }
-            if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) [ReadCallStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) [ReadCallStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             return callStatement;
         }
 
         private Expression ReadCallExpression() {
-            if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT  [ReadCallExpression] Token: " + index);
+            if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT  [ReadCallExpression] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             CallExpression callExpression = new CallExpression(Pop().Value);
-            if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected ( after ident [ReadCallExpression] Token: " + index);
+            if (Peek().Type != Token.TokenType.LeftParenthesis) throw new Exception("Expected ( after ident [ReadCallExpression] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
-            if (Peek().Type == Token.TokenType.Ident)
+            if (Peek().Type != Token.TokenType.RightParenthesis)
             {
-                callExpression.Parameters.Add(Pop().Value);
+                callExpression.Parameters.Add(ReadExpression());
                 while (Peek().Type == Token.TokenType.Comma)
                 {
                     Pop();
-                    if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT after , [ReadCallExpression] Token: " + index);
-                    callExpression.Parameters.Add(Pop().Value);
+                    callExpression.Parameters.Add(ReadExpression());
                 }
             }
-            if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) [ReadCallExpression] Token: " + index);
+            if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) [ReadCallExpression] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             return callExpression;
         }
 
         private Statement ReadFunctionStatement()
         {
-            if (Peek().Type != Token.TokenType.Fun) throw new Exception("Expected fun [ReadFunctionStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.Fun) throw new Exception("Expected fun [ReadFunctionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
-            if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT [ReadFunctionStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT [ReadFunctionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             var ident = Pop().Value;
             FunctionStatement functionStatement = new FunctionStatement(ident);
-            if (Peek().Type != Token.TokenType.LeftParenthesis) throw new Exception("Expected ( [ReadFunctionStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.LeftParenthesis) throw new Exception("Expected ( [ReadFunctionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             if (Peek().Type == Token.TokenType.Ident)
             {
                 var paramIdent = Pop().Value;
-                if (Peek().Type != Token.TokenType.Colon) throw new Exception("Expected : after ident [ReadFunctionStatement] Token: " + index);
+                if (Peek().Type != Token.TokenType.Colon) throw new Exception("Expected : after ident [ReadFunctionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                 Pop();
                 DataType dataType = ReadDataType();
                 functionStatement.Parameters.Add(new Parameter(paramIdent, dataType));
                 while (Peek().Type != Token.TokenType.Comma)
                 {
                     Pop();
-                    if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT after , [ReadFunctionStatement] Token: " + index);
+                    if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT after , [ReadFunctionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                     paramIdent = Pop().Value;
-                    if (Peek().Type != Token.TokenType.Colon) throw new Exception("Expected : after ident [ReadFunctionStatement] Token: " + index);
+                    if (Peek().Type != Token.TokenType.Colon) throw new Exception("Expected : after ident [ReadFunctionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                     Pop();
                     dataType = ReadDataType();
                     functionStatement.Parameters.Add(new Parameter(paramIdent, dataType));
                 }
             }
-            if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) [ReadFunctionStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) [ReadFunctionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             if (Peek().Type == Token.TokenType.Colon)
             {
                 Pop();
                 functionStatement.ReturnType = ReadDataType();
             }
-            if (Peek().Type != Token.TokenType.LeftBracket) throw new Exception("Expected { [ReadFunctionStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.LeftBracket) throw new Exception("Expected { [ReadFunctionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             while (Peek().Type != Token.TokenType.RightBracket)
             {
                 functionStatement.Statements.Add(ReadStatement());
             }
-            if (Peek().Type != Token.TokenType.RightBracket) throw new Exception("Expected } [ReadFunctionStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.RightBracket) throw new Exception("Expected } [ReadFunctionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             return functionStatement;
         }
@@ -338,17 +336,17 @@ namespace BTEJA_SemWork
                 case Token.TokenType.String: return DataType.String;
                 case Token.TokenType.Int: return DataType.Int;
                 default:
-                    throw new Exception("Expected a DataType [ReadDataType] Token: " + index);
+                    throw new Exception("Expected a DataType [ReadDataType] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             }
         }
         private Statement ReadIfStatement()
         {
-            if (Peek().Type != Token.TokenType.If) throw new Exception("Expected if [ReadIfStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.If) throw new Exception("Expected if [ReadIfStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
-            if (Peek().Type != Token.TokenType.LeftParenthesis) throw new Exception("Expected ( after if [ReadIfStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.LeftParenthesis) throw new Exception("Expected ( after if [ReadIfStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             IfStatement ifStatement = new IfStatement(ReadCondition());
-            if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) after condition [ReadIfStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) after condition [ReadIfStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             if (Peek().Type == Token.TokenType.LeftBracket)
             {
@@ -357,7 +355,7 @@ namespace BTEJA_SemWork
                 {
                     ifStatement.Statements.Add(ReadStatement());
                 }
-                if (Peek().Type != Token.TokenType.RightBracket) throw new Exception("Expected } [ReadIfStatement] Token: " + index);
+                if (Peek().Type != Token.TokenType.RightBracket) throw new Exception("Expected } [ReadIfStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                 Pop();
             } else if (Peek().Type != Token.TokenType.Return) {
                 ifStatement.Statements.Add(ReadStatement());
@@ -367,31 +365,31 @@ namespace BTEJA_SemWork
                     ifStatement.Statements.Add(ReadStatement());
                 }
                 else {
-                    throw new Exception("Expected Assign,return or call statement [ReadIfStatement] Token: " + index);
+                    throw new Exception("Expected Assign,return or call statement [ReadIfStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                 }
             }
             else {
-                throw new Exception("Expected Assign,return or call statement [ReadIfStatement] Token: " + index);
+                throw new Exception("Expected Assign,return or call statement [ReadIfStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             }
             return ifStatement;
         }
 
         private Statement ReadWhileStatement()
         {
-            if (Peek().Type != Token.TokenType.While) throw new Exception("Expected while [ReadWhileStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.While) throw new Exception("Expected while [ReadWhileStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
-            if (Peek().Type != Token.TokenType.LeftParenthesis) throw new Exception("Expected ( after while [ReadWhileStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.LeftParenthesis) throw new Exception("Expected ( after while [ReadWhileStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             WhileStatement whileStatement = new WhileStatement(ReadCondition());
-            if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) after condition [ReadWhileStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.RightParenthesis) throw new Exception("Expected ) after condition [ReadWhileStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
-            if (Peek().Type != Token.TokenType.LeftBracket) throw new Exception("Expected { [ReadWhileStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.LeftBracket) throw new Exception("Expected { [ReadWhileStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             while (Peek().Type != Token.TokenType.RightBracket)
             {
                 whileStatement.Statements.Add(ReadStatement());
             }
-            if (Peek().Type != Token.TokenType.RightBracket) throw new Exception("Expected } [ReadWhileStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.RightBracket) throw new Exception("Expected } [ReadWhileStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             return whileStatement;
         }
@@ -428,20 +426,20 @@ namespace BTEJA_SemWork
                 case Token.TokenType.Greater: Pop(); return new GreaterCond(expression, ReadExpression());
                 case Token.TokenType.NotEqual: Pop(); return new NotEqualCond(expression, ReadExpression());
                 default:
-                    throw new Exception("Expected > < == != <= >= [ReadReturnStatement] Token: " + index);
+                    throw new Exception("Expected > < == != <= >= [ReadReturnStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             }
         }
 
         private Statement ReadReturnStatement()
         {
-            if (Peek().Type != Token.TokenType.Return) throw new Exception("Expected Return [ReadReturnStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.Return) throw new Exception("Expected Return [ReadReturnStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             Pop();
             Expression expression = ReadExpression();
             return new ReturnStatement(expression);
         }
         private Statement ReadDefinitionStatement()
         {
-            if (Peek().Type != Token.TokenType.Val && Peek().Type != Token.TokenType.Var) throw new Exception("Expected Var or Val [ReadDefinitionStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.Val && Peek().Type != Token.TokenType.Var) throw new Exception("Expected Var or Val [ReadDefinitionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             DefinitionStatement definitionStatement = new DefinitionStatement();
             if (Pop().Type == Token.TokenType.Var)
             {
@@ -450,7 +448,7 @@ namespace BTEJA_SemWork
             else {
                 definitionStatement.IsVal = true;
             }
-            if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected ident after var/val [ReadDefinitionStatement] Token: " + index);
+            if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected ident after var/val [ReadDefinitionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             DataType? holder = null;
             definitionStatement.Ident = Pop().Value;
             if (Peek().Type == Token.TokenType.Colon)
@@ -462,7 +460,7 @@ namespace BTEJA_SemWork
                     case Token.TokenType.String: definitionStatement.DataType = DataType.String; holder = DataType.String; break;
                     case Token.TokenType.Int: definitionStatement.DataType = DataType.Int; holder = DataType.Int; break;
                     default:
-                        throw new Exception("Expected String/Double/Int after : [ReadDefinitionStatement] Token: " + index);
+                        throw new Exception("Expected String/Double/Int after : [ReadDefinitionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                 }
             } 
             if (Peek().Type == Token.TokenType.Equal) {
@@ -470,43 +468,41 @@ namespace BTEJA_SemWork
                 switch (Peek().Type)
                 {
                     case Token.TokenType.DoubleLit:
-                        //if (Peek().Type != Token.TokenType.Return) throw new Exception("Expected Return [ReadDefinitionStatement] Token: " + index);
+                        //if (Peek().Type != Token.TokenType.Return) throw new Exception("Expected Return [ReadDefinitionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                         if (holder == DataType.Double || holder == null)
                         {
                             definitionStatement.DataType = DataType.Double;
-                            definitionStatement.Value = Pop().Value;
+                            definitionStatement.Value = Convert.ToDouble(Pop().Value);
                         }
                         else {
-                            throw new Exception("Specified datatype and value do not match [ReadDefinitionStatement] Token: " + index);
+                            throw new Exception("Specified datatype and value do not match [ReadDefinitionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                         }
                         break;
                     case Token.TokenType.IntLit:
                         if (holder == DataType.Int || holder == null)
                         {
-                            Console.WriteLine("Zadavam int value u definice");
                             definitionStatement.DataType = DataType.Int;
-                            definitionStatement.Value = Pop().Value;
+                            definitionStatement.Value = Convert.ToInt32(Pop().Value);
                         }
                         else {
-                            throw new Exception("Specified datatype and value do not match [ReadDefinitionStatement] Token: " + index);
+                            throw new Exception("Specified datatype and value do not match [ReadDefinitionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                         }                        
                         break;
                     case Token.TokenType.Quotation:
                         if (holder == DataType.String || holder == null)
                         {
                             definitionStatement.DataType = DataType.String;
-                            definitionStatement.Value = ((StringExpression)ReadStringExpression()).Value;
+                            definitionStatement.Value = Convert.ToString(((StringExpression)ReadStringExpression()).Value);
                         }
-                        throw new Exception("Specified datatype and value do not match [ReadDefinitionStatement] Token: " + index);
+                        throw new Exception("Specified datatype and value do not match [ReadDefinitionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                         break;
                     default:
-                        throw new Exception("Expected stringlit/doublelit/intlit [ReadDefinitionStatement] Token: " + index);
+                        throw new Exception("Expected stringlit/doublelit/intlit [ReadDefinitionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                 }
             }
             if (definitionStatement.DataType == null) {
-                throw new Exception("Either specify datatype of inicialize variable [ReadDefinitionStatement] Token: " + index);
+                throw new Exception("Either specify datatype of inicialize variable [ReadDefinitionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
             }
-            Console.WriteLine("Parsing def: " + definitionStatement.DataType);
             return definitionStatement;
         }
     }

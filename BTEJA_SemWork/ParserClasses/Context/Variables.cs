@@ -55,15 +55,17 @@ namespace BTEJA_SemWork.ParserClasses.Context
                                 if (value.GetType() == typeof(string))
                                 {
                                     var.Value = value;
+                                    return;
                                 }
                                 else {
                                     throw new Exception("You cannot enter this value into string: " + value.ToString());
                                 }
                                 break;
                             case DataType.Int:
-                                if (value.GetType() == typeof(int))
+                                if (value.GetType() == typeof(Int32))
                                 {
                                     var.Value = value;
+                                    return;
                                 }
                                 else
                                 {
@@ -74,6 +76,7 @@ namespace BTEJA_SemWork.ParserClasses.Context
                                 if (value.GetType() == typeof(double))
                                 {
                                     var.Value = value;
+                                    return;
                                 }
                                 else
                                 {

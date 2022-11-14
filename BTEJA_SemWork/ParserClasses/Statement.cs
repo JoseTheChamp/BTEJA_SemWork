@@ -9,6 +9,6 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public abstract class Statement
     {
-        public abstract void Execute(MyExecutionContext executionContext);
+        public abstract object? Execute(MyExecutionContext executionContext);
     }
 }

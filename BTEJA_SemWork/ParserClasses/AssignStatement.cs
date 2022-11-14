@@ -17,9 +17,10 @@ namespace BTEJA_SemWork.ParserClasses
             Expression = expression;
         }
 
-        public override void Execute(MyExecutionContext executionContext)
+        public override object? Execute(MyExecutionContext executionContext)
         {
-            executionContext.Variables.Set(Ident,Expression.Evaluate(executionContext));
+            executionContext.Variables.Set(Ident, Expression.Evaluate(executionContext));
+            return null;
         }
     }
 }

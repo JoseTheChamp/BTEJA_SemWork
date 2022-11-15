@@ -299,7 +299,7 @@ namespace BTEJA_SemWork
                 Pop();
                 DataType dataType = ReadDataType();
                 functionStatement.Parameters.Add(new Parameter(paramIdent, dataType));
-                while (Peek().Type != Token.TokenType.Comma)
+                while (Peek().Type == Token.TokenType.Comma)
                 {
                     Pop();
                     if (Peek().Type != Token.TokenType.Ident) throw new Exception("Expected IDENT after , [ReadFunctionStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
@@ -357,10 +357,21 @@ namespace BTEJA_SemWork
                 }
                 if (Peek().Type != Token.TokenType.RightBracket) throw new Exception("Expected } [ReadIfStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
                 Pop();
-            } else if (Peek().Type != Token.TokenType.Return) {
+                if (Peek().Type == Token.TokenType.Else) {
+                    Pop();
+                    if (Peek().Type != Token.TokenType.LeftBracket) throw new Exception("Expected { [ReadIfStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
+                    Pop();
+                    while (Peek().Type != Token.TokenType.RightBracket)
+                    {
+                        ifStatement.ElseStatements.Add(ReadStatement());
+                    }
+                    if (Peek().Type != Token.TokenType.RightBracket) throw new Exception("Expected } [ReadIfStatement] Line: " + tokens[index].Line + " at token " + tokens[index].LineToken);
+                    Pop();
+                }
+            } else if (Peek().Type == Token.TokenType.Return) {
                 ifStatement.Statements.Add(ReadStatement());
-            }else if (Peek().Type != Token.TokenType.Ident) {
-                if (Peek(1).Type != Token.TokenType.LeftParenthesis || Peek(1).Type != Token.TokenType.Equal)
+            }else if (Peek().Type == Token.TokenType.Ident) {
+                if (Peek(1).Type == Token.TokenType.LeftParenthesis || Peek(1).Type == Token.TokenType.Equal)
                 {
                     ifStatement.Statements.Add(ReadStatement());
                 }

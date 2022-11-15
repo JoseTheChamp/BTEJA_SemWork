@@ -1,8 +1,13 @@
-﻿var a = 5;
-var b = 15;
-fun ahoj() : Int {
-	b = b - a;
-	return b;
+﻿var a = 1;
+var b : Int;
+fun ahoj(cislo:Int) : Int {
+	cislo = cislo * 4;
+	return cislo;
 }
-b = ahoj() - 1;
+b = ahoj(a);
 print(b);
+if(b >= 10){
+print("B je moc VELKE.");
+}else{
+print("B je male.");
+}

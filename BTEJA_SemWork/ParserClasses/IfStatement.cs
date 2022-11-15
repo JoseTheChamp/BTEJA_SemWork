@@ -11,10 +11,12 @@ namespace BTEJA_SemWork.ParserClasses
     {
         public Condition Condition { get; set; }
         public List<Statement> Statements { get; set; }
+        public List<Statement> ElseStatements { get; set; }
         public IfStatement(Condition condition)
         {
             Condition = condition;
             Statements = new List<Statement>();
+            ElseStatements = new List<Statement>();
         }
 
         public override object? Execute(MyExecutionContext executionContext)
@@ -23,6 +25,14 @@ namespace BTEJA_SemWork.ParserClasses
             {
                 MyExecutionContext innerExecutionContext = (MyExecutionContext)executionContext.Clone();
                 foreach (Statement statement in Statements)
+                {
+                    object? result = statement.Execute(innerExecutionContext);
+                    if (result != null) return result;
+                }
+            }
+            else {
+                MyExecutionContext innerExecutionContext = (MyExecutionContext)executionContext.Clone();
+                foreach (Statement statement in ElseStatements)
                 {
                     object? result = statement.Execute(innerExecutionContext);
                     if (result != null) return result;

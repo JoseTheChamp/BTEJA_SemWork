@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BTEJA_SemWork.ParserClasses
 {
-    public class Parameter
+    public class Parameter : Position
     {
         public string Ident { get; set; }
         public DataType DataType { get; set; }

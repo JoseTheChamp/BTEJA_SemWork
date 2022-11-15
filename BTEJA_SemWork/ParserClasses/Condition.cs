@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BTEJA_SemWork.ParserClasses
 {
-    public abstract class Condition : IEvaluable
+    public abstract class Condition : Position,IEvaluable
     {
         public abstract object Evaluate(MyExecutionContext executionContext);
     }

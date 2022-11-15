@@ -19,7 +19,7 @@ namespace BTEJA_SemWork.ParserClasses
             switch (Type.GetTypeCode(leftValue.GetType()))
             {
                 case TypeCode.Int32:
-                    if (Right.GetType() == Left.GetType())
+                    if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
                     {
                         if (Convert.ToInt32(leftValue) <= Convert.ToInt32(Right.Evaluate(executionContext))) return true;
                         return false;
@@ -29,7 +29,7 @@ namespace BTEJA_SemWork.ParserClasses
                         throw new Exception("SmallerEqualCond: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.Double:
-                    if (Right.GetType() == Left.GetType())
+                    if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
                     {
                         if (Convert.ToDouble(leftValue) <= Convert.ToDouble(Right.Evaluate(executionContext))) return true;
                         return false;

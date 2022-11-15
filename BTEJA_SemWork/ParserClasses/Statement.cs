@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BTEJA_SemWork.ParserClasses
 {
-    public abstract class Statement
+    public abstract class Statement : Position
     {
         public abstract object? Execute(MyExecutionContext executionContext);
     }

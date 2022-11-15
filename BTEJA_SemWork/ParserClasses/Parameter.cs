@@ -8,12 +8,16 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class Parameter : Position
     {
-        public string Ident { get; set; }
-        public DataType DataType { get; set; }
-        public Parameter(string ident, DataType dataType)
+        public Parameter(int line, int token,string ident,DataType dataType) : base(line, token)
         {
+            
             Ident = ident;
             DataType = dataType;
+            
         }
+
+        public string Ident { get; set; }
+        public DataType DataType { get; set; }
+        
     }
 }

@@ -9,12 +9,12 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class NegCondition : Condition
     {
-        public Condition Condition { get; set; }
-
-        public NegCondition(Condition condition)
+        public NegCondition(int line, int token,Condition condition) : base(line, token)
         {
             Condition = condition;
         }
+
+        public Condition Condition { get; set; }
 
         public override object Evaluate(MyExecutionContext executionContext)
         {

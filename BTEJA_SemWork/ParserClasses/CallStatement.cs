@@ -12,7 +12,7 @@ namespace BTEJA_SemWork.ParserClasses
         public string Ident { get; set; }
         public List<Expression> Params { get; set; }
 
-        public CallStatement(string ident)
+        public CallStatement(int line, int token, string ident) : base(line, token)
         {
             Ident = ident;
             Params = new List<Expression>();
@@ -20,7 +20,14 @@ namespace BTEJA_SemWork.ParserClasses
 
         public override object? Execute(MyExecutionContext executionContext)
         {
-            executionContext.ProgramContext.Call(Ident,executionContext,Params);
+            try
+            {
+                executionContext.ProgramContext.Call(Ident, executionContext, Params);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Line: " + Line + "  Token: " + Token + "  " + ex.Message.ToString());
+            }
             return null;
         }
     }

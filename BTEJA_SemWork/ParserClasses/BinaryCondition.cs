@@ -8,13 +8,15 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public abstract class BinaryCondition : Condition
     {
-        public Expression Left { get; set; }
-        public Expression Right { get; set; }
-
-        protected BinaryCondition(Expression left, Expression right)
+        protected BinaryCondition(int line, int token, Expression left, Expression right) : base(line, token)
         {
             Left = left;
             Right = right;
         }
+
+        public Expression Left { get; set; }
+        public Expression Right { get; set; }
+
+       
     }
 }

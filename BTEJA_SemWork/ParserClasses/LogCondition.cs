@@ -9,11 +9,12 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class LogCondition : Condition
     {
-        public List<Condition> Conditions { get; set; }
-        public LogCondition()
+        public LogCondition(int line, int token) : base(line, token)
         {
             Conditions = new List<Condition>();
         }
+
+        public List<Condition> Conditions { get; set; }
 
         public override object Evaluate(MyExecutionContext executionContext)
         {

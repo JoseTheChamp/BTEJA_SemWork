@@ -23,7 +23,7 @@ namespace BTEJA_SemWork.ParserClasses.Context
             {
                 if (item.Ident == variable.Ident)
                 {
-                    throw new Exception("Proměná už byla definovaná [" + variable.Ident + "].");
+                    throw new Exception("This variable was already defined. [" + variable.Ident + "].");
                 }
             }
             Vars.Add(variable);
@@ -38,7 +38,7 @@ namespace BTEJA_SemWork.ParserClasses.Context
                     return var.Value;
                 }
             }
-            throw new Exception("Proměná nebyla definovaná [" + ident + "].");
+            throw new Exception("This variable was already defined. [" + ident + "].");
         }
 
         public void Set(string ident, object value)
@@ -69,7 +69,7 @@ namespace BTEJA_SemWork.ParserClasses.Context
                                 }
                                 else
                                 {
-                                    throw new Exception("You cannot enter this value into string: " + value.ToString());
+                                    throw new Exception("You cannot enter this value into int: " + value.ToString());
                                 }
                                 break;
                             case DataType.Double:
@@ -80,7 +80,7 @@ namespace BTEJA_SemWork.ParserClasses.Context
                                 }
                                 else
                                 {
-                                    throw new Exception("You cannot enter this value into string: " + value.ToString());
+                                    throw new Exception("You cannot enter this value into Dounle: " + value.ToString());
                                 }
                                 break;
                             default:
@@ -89,11 +89,11 @@ namespace BTEJA_SemWork.ParserClasses.Context
                     }
                     else
                     {
-                        throw new Exception("Nemůžete zapisovat do konstanty.");
+                        throw new Exception("You cannot write into Val.");
                     }
                 }
             }
-            throw new Exception("Tato proměnná nebyla definovaná: " + ident);
+            throw new Exception("This variable was already defined: " + ident);
         }
     }
 }

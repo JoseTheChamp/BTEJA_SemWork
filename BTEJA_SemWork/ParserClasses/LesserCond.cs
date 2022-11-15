@@ -9,7 +9,7 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class LesserCond : BinaryCondition
     {
-        public LesserCond(Expression left, Expression right) : base(left, right)
+        public LesserCond(int line, int token, Expression left, Expression right) : base(line, token, left, right)
         {
         }
 
@@ -26,7 +26,7 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("SmallerCond: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  SmallerCond: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.Double:
                     if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
@@ -36,14 +36,14 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("SmallerCond: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  SmallerCond: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.String:
-                    throw new Exception("SmallerCond: does not support string.[Interpreting]");
+                    throw new Exception("Line: " + Line + "  Token: " + Token + "  SmallerCond: does not support string.[Interpreting]");
                 default:
                     break;
             }
-            throw new Exception("SmallerCond: Unexpected error.[Interpreting]");
+            throw new Exception("Line: " + Line + "  Token: " + Token + "  SmallerCond: Unexpected error.[Interpreting]");
         }
     }
 }

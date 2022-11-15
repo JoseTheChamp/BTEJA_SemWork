@@ -8,6 +8,12 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public abstract class BinaryExpression : Expression
     {
+        protected BinaryExpression(int line, int token,Expression left, Expression right) : base(line, token)
+        {
+            Left = left;
+            Right = right;
+        }
+
         public Expression Left { get; set; }
         public Expression Right { get; set; }
     }

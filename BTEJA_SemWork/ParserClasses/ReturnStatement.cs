@@ -9,13 +9,11 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class ReturnStatement : Statement
     {
-        public Expression Expression { get; set; }
-
-        public ReturnStatement(Expression expression)
+        public ReturnStatement(int line, int token, Expression expression) : base(line, token)
         {
             Expression = expression;
         }
-
+        public Expression Expression { get; set; }
         public override object? Execute(MyExecutionContext executionContext)
         {
             return Expression.Evaluate(executionContext);

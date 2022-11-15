@@ -8,6 +8,11 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public abstract class UnaryExpression : Expression
     {
+        protected UnaryExpression(int line, int token,Expression expression) : base(line, token)
+        {
+            Expression = expression;
+        }
+
         public Expression Expression { get; set; }
     }
 }

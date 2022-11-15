@@ -9,6 +9,10 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class Multiply : BinaryExpression
     {
+        public Multiply(int line, int token, Expression left, Expression right) : base(line, token, left, right)
+        {
+        }
+
         public override object Evaluate(MyExecutionContext executionContext)
         {
             object leftValue = Left.Evaluate(executionContext);
@@ -21,7 +25,7 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("Multiplying: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  Multiplying: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.Double:
                     if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
@@ -30,14 +34,14 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("Multiplying: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  Multiplying: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.String:
-                    throw new Exception("Multiplying: Dividing strings is not supported.[Interpreting]");
+                    throw new Exception("Line: " + Line + "  Token: " + Token + "  Multiplying: Dividing strings is not supported.[Interpreting]");
                 default:
                     break;
             }
-            throw new Exception("Multiplying: Unexpected error.[Interpreting]");
+            throw new Exception("Line: " + Line + "  Token: " + Token + "  Multiplying: Unexpected error.[Interpreting]");
         }
     }
 }

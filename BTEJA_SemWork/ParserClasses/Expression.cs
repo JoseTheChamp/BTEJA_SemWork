@@ -9,6 +9,10 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public abstract class Expression : Position, IEvaluable
     {
+        protected Expression(int line, int token) : base(line, token)
+        {
+        }
+
         public abstract object Evaluate(MyExecutionContext executionContext);
     }
 }

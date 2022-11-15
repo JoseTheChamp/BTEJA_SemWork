@@ -9,21 +9,29 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class FunctionStatement : Statement
     {
-        public string Ident { get; set; }
-        public List<Parameter> Parameters { get; set; }
-        public DataType? ReturnType { get; set; }
-        public List<Statement> Statements { get; set; }
-
-        public FunctionStatement(string ident)
+        public FunctionStatement(int line, int token, string ident) : base(line, token)
         {
             Ident = ident;
             Parameters = new List<Parameter>();
             Statements = new List<Statement>();
         }
 
+        public string Ident { get; set; }
+        public List<Parameter> Parameters { get; set; }
+        public DataType? ReturnType { get; set; }
+        public List<Statement> Statements { get; set; }
+
+
         public override object? Execute(MyExecutionContext executionContext)
         {
-            executionContext.ProgramContext.AddFunction(new Function(Ident,ReturnType,Parameters,Statements));
+            try
+            {
+                executionContext.ProgramContext.AddFunction(new Function(Ident, ReturnType, Parameters, Statements));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Line: " + Line + "  Token: " + Token + "  " + ex.Message.ToString());
+            }
             return null;
         }
     }

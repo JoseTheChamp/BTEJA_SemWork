@@ -10,5 +10,11 @@ namespace BTEJA_SemWork.ParserClasses
     {
         public int Line { get; set; }
         public int Token { get; set; }
+
+        public Position(int line, int token)
+        {
+            Line = line;
+            Token = token;
+        }
     }
 }

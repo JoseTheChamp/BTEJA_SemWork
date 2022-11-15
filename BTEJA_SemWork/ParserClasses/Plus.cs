@@ -9,6 +9,10 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class Plus : BinaryExpression
     {
+        public Plus(int line, int token, Expression left, Expression right) : base(line, token, left, right)
+        {
+        }
+
         public override object Evaluate(MyExecutionContext executionContext)
         {
             Console.WriteLine("Substract");
@@ -22,7 +26,7 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("Addition: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  Addition: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.Double:
                     if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
@@ -31,14 +35,14 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("Addition: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  Addition: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.String:
-                    throw new Exception("Addition: Adding strings is not supported.[Interpreting]");
+                    throw new Exception("Line: " + Line + "  Token: " + Token + "  Addition: Adding strings is not supported.[Interpreting]");
                 default:
                     break;
             }
-            throw new Exception("Addition: Unexpected error.[Interpreting]");
+            throw new Exception("Line: " + Line + "  Token: " + Token + "  Addition: Unexpected error.[Interpreting]");
         }
     }
 }

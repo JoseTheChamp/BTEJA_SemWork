@@ -9,6 +9,10 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class DefinitionStatement : Statement
     {
+        public DefinitionStatement(int line, int token) : base(line, token)
+        {
+        }
+
         public bool IsVal { get; set; }
         public string Ident { get; set; }
         public DataType DataType { get; set; }
@@ -16,7 +20,14 @@ namespace BTEJA_SemWork.ParserClasses
 
         public override object? Execute(MyExecutionContext executionContext)
         {
-            executionContext.Variables.AddVariable(new Variable(Ident,IsVal,DataType,Value));
+            try
+            {
+                executionContext.Variables.AddVariable(new Variable(Ident, IsVal, DataType, Value));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Line: " + Line + "  Token: " + Token + "  " + ex.Message.ToString());
+            }
             return null;
         }
     }

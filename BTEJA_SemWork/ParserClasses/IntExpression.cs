@@ -9,6 +9,10 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class IntExpression : LitExpression
     {
+        public IntExpression(int line, int token, object value) : base(line, token, value)
+        {
+        }
+
         public override object Evaluate(MyExecutionContext executionContext)
         {
             return Convert.ToInt32(Value);

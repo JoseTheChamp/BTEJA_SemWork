@@ -9,18 +9,27 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class CallExpression : Expression
     {
-        public string Ident { get; set; }
-        public List<Expression> Parameters { get; set; }
-
-        public CallExpression(string ident)
+        public CallExpression(int line, int token,string ident) : base(line, token)
         {
             Ident = ident;
             Parameters = new List<Expression>();
         }
 
+        public string Ident { get; set; }
+        public List<Expression> Parameters { get; set; }
+
+        
+
         public override object Evaluate(MyExecutionContext executionContext)
         {
-            return executionContext.ProgramContext.Call(Ident,executionContext,Parameters);
+            try
+            {
+                return executionContext.ProgramContext.Call(Ident, executionContext, Parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Line: " + Line + "  Token: " + Token + "  " + ex.Message.ToString());
+            }
         }
     }
 }

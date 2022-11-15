@@ -9,6 +9,10 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class StringExpression : LitExpression
     {
+        public StringExpression(int line, int token, object value) : base(line, token, value)
+        {
+        }
+
         public override object Evaluate(MyExecutionContext executionContext)
         {
             return Convert.ToString(Value);

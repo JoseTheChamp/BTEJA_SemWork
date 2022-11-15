@@ -9,7 +9,7 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class GreaterEqualCond : BinaryCondition
     {
-        public GreaterEqualCond(Expression left, Expression right) : base(left, right)
+        public GreaterEqualCond(int line, int token, Expression left, Expression right) : base(line, token, left, right)
         {
         }
 
@@ -26,7 +26,7 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("GreaterEqualCond: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  GreaterEqualCond: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.Double:
                     if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
@@ -36,14 +36,14 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("GreaterEqualCond: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  GreaterEqualCond: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.String:
-                    throw new Exception("GreaterEqualCond: does not support string.[Interpreting]");
+                    throw new Exception("Line: " + Line + "  Token: " + Token + "  GreaterEqualCond: does not support string.[Interpreting]");
                 default:
                     break;
             }
-            throw new Exception("GreaterEqualCond: Unexpected error.[Interpreting]");
+            throw new Exception("Line: " + Line + "  Token: " + Token + "  GreaterEqualCond: Unexpected error.[Interpreting]");
         }
     }
 }

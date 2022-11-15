@@ -9,7 +9,7 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class EqualCond : BinaryCondition
     {
-        public EqualCond(Expression left, Expression right) : base(left, right)
+        public EqualCond(int line, int token, Expression left, Expression right) : base(line, token, left, right)
         {
         }
 
@@ -26,7 +26,7 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("EqualCond: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  EqualCond: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.Double:
                     if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
@@ -36,7 +36,7 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("EqualCond: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  EqualCond: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.String:
                     if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
@@ -46,12 +46,12 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("EqualCond: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  EqualCond: both operands must be of the same datatype.[Interpreting]");
                     }
                 default:
                     break;
             }
-            throw new Exception("EqualCond: Unexpected error.[Interpreting]");
+            throw new Exception("Line: " + Line + "  Token: " + Token + "  EqualCond: Unexpected error.[Interpreting]");
         }
     }
 }

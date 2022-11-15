@@ -9,12 +9,14 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class OrCondition : Condition
     {
-        public Condition Condition { get; set; }
-
-        public OrCondition(Condition condition)
+        public OrCondition(int line, int token, Condition condition) : base(line, token)
         {
             Condition = condition;
         }
+
+        public Condition Condition { get; set; }
+
+        
 
         public override object Evaluate(MyExecutionContext executionContext)
         {

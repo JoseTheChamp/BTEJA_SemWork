@@ -9,7 +9,7 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class NotEqualCond : BinaryCondition
     {
-        public NotEqualCond(Expression left, Expression right) : base(left, right)
+        public NotEqualCond(int line, int token, Expression left, Expression right) : base(line, token, left, right)
         {
         }
 
@@ -26,7 +26,7 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("NotequalCond: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  NotequalCond: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.Double:
                     if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
@@ -36,7 +36,7 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("NotequalCond: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  NotequalCond: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.String:
                     if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
@@ -46,12 +46,12 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("NotequalCond: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  NotequalCond: both operands must be of the same datatype.[Interpreting]");
                     }
                 default:
                     break;
             }
-            throw new Exception("NotequalCond: Unexpected error.[Interpreting]");
+            throw new Exception("Line: " + Line + "  Token: " + Token + "  NotequalCond: Unexpected error.[Interpreting]");
         }
     }
 }

@@ -9,14 +9,16 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class WhileStatement : Statement
     {
-        public Condition Condition { get; set; }
-        public List<Statement> Statements { get; set; }
-
-        public WhileStatement(Condition condition)
+        public WhileStatement(int line, int token, Condition condition) : base(line, token)
         {
             Condition = condition;
             Statements = new List<Statement>();
         }
+
+        public Condition Condition { get; set; }
+        public List<Statement> Statements { get; set; }
+
+        
 
         public override object? Execute(MyExecutionContext executionContext)
         {

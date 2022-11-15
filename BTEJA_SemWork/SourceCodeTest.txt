@@ -1,13 +1,16 @@
 ﻿var a = 1;
 var b : Int;
+
 fun ahoj(cislo:Int) : Int {
 	cislo = cislo * 4;
 	return cislo;
 }
+
 b = ahoj(a);
 print(b);
+
 if(b >= 10){
-print("B je moc VELKE.");
+	print("B je moc VELKE.");
 }else{
-print("B je male.");
+	print("B je male.");
 }

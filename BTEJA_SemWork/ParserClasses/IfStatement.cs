@@ -9,15 +9,17 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class IfStatement : Statement
     {
-        public Condition Condition { get; set; }
-        public List<Statement> Statements { get; set; }
-        public List<Statement> ElseStatements { get; set; }
-        public IfStatement(Condition condition)
+        public IfStatement(int line, int token,Condition condition) : base(line, token)
         {
             Condition = condition;
             Statements = new List<Statement>();
             ElseStatements = new List<Statement>();
         }
+
+        public Condition Condition { get; set; }
+        public List<Statement> Statements { get; set; }
+        public List<Statement> ElseStatements { get; set; }
+
 
         public override object? Execute(MyExecutionContext executionContext)
         {

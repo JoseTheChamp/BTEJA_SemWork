@@ -9,6 +9,10 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class MinusUnary : UnaryExpression
     {
+        public MinusUnary(int line, int token, Expression expression) : base(line, token, expression)
+        {
+        }
+
         public override object Evaluate(MyExecutionContext executionContext)
         {
             object value = Expression.Evaluate(executionContext);
@@ -19,9 +23,9 @@ namespace BTEJA_SemWork.ParserClasses
                 case TypeCode.Double:
                     return -Convert.ToDouble(value);
                 case TypeCode.String:
-                    throw new Exception("MinusUnary: -string.[Interpreting]");
+                    throw new Exception("Line: " + Line + "  Token: " + Token + "  MinusUnary: -string.[Interpreting]");
             }
-            throw new Exception("MinusUnary: Unexpected error.[Interpreting]");
+            throw new Exception("Line: " + Line + "  Token: " + Token + "  MinusUnary: Unexpected error.[Interpreting]");
         }
     }
 }

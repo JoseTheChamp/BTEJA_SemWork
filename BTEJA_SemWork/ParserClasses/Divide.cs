@@ -9,6 +9,10 @@ namespace BTEJA_SemWork.ParserClasses
 {
     public class Divide : BinaryExpression
     {
+        public Divide(int line, int token, Expression left, Expression right) : base(line, token, left, right)
+        {
+        }
+
         public override object Evaluate(MyExecutionContext executionContext)
         {
             object leftValue = Left.Evaluate(executionContext);
@@ -21,7 +25,7 @@ namespace BTEJA_SemWork.ParserClasses
                     }
                     else
                     {
-                        throw new Exception("Dividing: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  Dividing: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.Double:
                     if (Right.Evaluate(executionContext).GetType() == Left.Evaluate(executionContext).GetType())
@@ -29,14 +33,14 @@ namespace BTEJA_SemWork.ParserClasses
                         return Convert.ToDouble(leftValue) / Convert.ToDouble(Right.Evaluate(executionContext));
                     }
                     else {
-                        throw new Exception("Dividing: both operands must be of the same datatype.[Interpreting]");
+                        throw new Exception("Line: " + Line + "  Token: " + Token + "  Dividing: both operands must be of the same datatype.[Interpreting]");
                     }
                 case TypeCode.String:
-                    throw new Exception("Dividing: Dividing strings is not supported.[Interpreting]");
+                    throw new Exception("Line: " + Line + "  Token: " + Token + "  Dividing: Dividing strings is not supported.[Interpreting]");
                 default:
                     break;
             }
-            throw new Exception("Dividing: Unexpected error.[Interpreting]");
+            throw new Exception("Line: " + Line + "  Token: " + Token + "  Dividing: Unexpected error.[Interpreting]");
         }
     }
 }
